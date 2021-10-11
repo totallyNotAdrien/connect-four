@@ -17,7 +17,27 @@ class ConnectFour
     end
   end
 
+  def has_winner?
+    return winner_horizontal?
+  end
+
   private
+
+  def winner_horizontal?
+    @board.each_index do |row_index|
+      row_string = row_to_string(row_index)
+      return true if string_has_four_in_a_row?(row_string)
+    end
+    false
+  end
+
+  def string_has_four_in_a_row?(str)
+    str.include?(Y * 4) || str.include?(R * 4)
+  end
+
+  def row_to_string(row_index)
+    @board[row_index].join("")
+  end
 
   def place_pieces(piece_placements, start_player_index = 0) #1-based placements
     @player_turn_index = start_player_index
