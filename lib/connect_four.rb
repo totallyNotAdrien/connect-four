@@ -18,7 +18,7 @@ class ConnectFour
   end
 
   def has_winner?
-    return winner_horizontal? || winner_vertical?
+    return winner_horizontal? || winner_vertical? || winner_diagonal?
   end
 
   private
@@ -37,6 +37,52 @@ class ConnectFour
       return true if string_has_four_in_a_row?(col_string)
     end
     false
+  end
+
+  def winner_diagonal?
+    winner_diagonal_up? || winner_diagonal_down?
+  end
+
+  def winner_diagonal_up?
+    #go down the left column from the first diagonal that could have a winner
+    for row_index in 3...@rows do
+      diag_string = diagonal_up_to_string(row_index, 0)
+      return true if string_has_four_in_a_row?(diag_string)
+    end
+
+    #go across the bottom row to the last diagonal that could have a winner
+    for col_index in 1..@cols-4 do
+      diag_string = diagonal_up_to_string(@rows-1, col_index)
+      return true if string_has_four_in_a_row?(diag_string)
+    end
+    false
+  end
+
+  def winner_diagonal_down?
+    false
+  end
+
+  #returns a string representing the diagonal from BL to TR
+  #that a given grid position is a part of
+  def diagonal_up_to_string(row_index, col_index)
+    #move to edge
+    while row_index < @rows && col_index > 0
+      row_index += 1
+      col_index -= 1
+    end
+
+    #form diagonal string from edge
+    diagonal_string = ""
+    while row_index > 0 && col_index < @cols
+        diagonal_string += @board[row_index][col_index]
+        row_index -= 1
+        col_index += 1
+    end
+    diagonal_string
+  end
+
+  def diagonal_down_to_string(row, col)
+
   end
 
   def string_has_four_in_a_row?(str)
