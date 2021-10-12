@@ -18,13 +18,31 @@ describe ConnectFour do
           expect(game_horizontal_win).to have_winner
         end
       end
+    end
 
-      context "when there is no winner" do
-        let(:game_horizontal_win){ConnectFour.new([1,1,4,3,5,7,6,2])}
+    context "when there is a winner vertically" do
+      context "when there is a winner on the leftmost column" do
+        let(:game_vertical_win){ConnectFour.new([1,2,1,2,1,2,1])}
         
-        it "returns false" do
-          expect(game_horizontal_win).not_to have_winner
+        it "returns true" do
+          expect(game_vertical_win).to have_winner
         end
+      end
+
+      context "when there is a winner in another column (fourth)" do
+        let(:game_vertical_win){ConnectFour.new([1,4,5,4,5,4,5,4])}
+        
+        it "returns true" do
+          expect(game_vertical_win).to have_winner
+        end
+      end
+    end
+
+    context "when there is no winner" do
+      let(:game_win){ConnectFour.new([1,1,4,3,5,7,6,2])}
+      
+      it "returns false" do
+        expect(game_win).not_to have_winner
       end
     end
   end
