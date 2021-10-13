@@ -17,11 +17,39 @@ class ConnectFour
     end
   end
 
+  def player_input
+
+  end
+
+  def handle_input(input)
+
+  end
+
   def has_winner?
     return winner_horizontal? || winner_vertical? || winner_diagonal?
   end
 
   private
+
+  def display_turn_info
+
+  end
+
+  def valid_input?(input)
+    return valid_digit?(input) && !column_full(input.to_i - 1)
+  end
+
+  def column_full(col_index)
+    bottommost_empty_row_index_in_col(col_index) == nil
+  end
+
+  def valid_digit?(char)
+    digit?(char) && char.to_i.between(1, @rows)
+  end
+
+  def digit?(char)
+    char.is_a?(String) && char.length == 1 && char >= "0" && char <= "9"
+  end
 
   def winner_horizontal?
     @board.each_index do |row_index|
