@@ -46,14 +46,29 @@ describe ConnectFour do
             expect(game_diag_up).to have_winner
           end
         end
+
+        context "if the winning sequence does not start at an edge" do
+          let(:game_diag_up){described_class.new([2,3,4,5,2,3,3,6,4,4,4,5,5,5,5])}
+          it "returns true" do
+            expect(game_diag_up).to have_winner
+          end
+        end
       end
     end
 
     context "when there is no winner" do
-      let(:game_win){described_class.new([1,1,4,3,5,7,6,2])}
+      let(:game_no_win){described_class.new([1,1,4,3,5,7,6,2])}
       
       it "returns false" do
-        expect(game_win).not_to have_winner
+        expect(game_no_win).not_to have_winner
+      end
+    end
+
+    context "when there is no winner" do
+      let(:game_no_win){described_class.new([1,2,3,4,5,1,2,3,4,5,1,2,3,4,5])}
+      
+      it "returns false" do
+        expect(game_no_win).not_to have_winner
       end
     end
   end

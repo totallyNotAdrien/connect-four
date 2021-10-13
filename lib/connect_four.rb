@@ -66,7 +66,7 @@ class ConnectFour
   #that a given grid position is a part of
   def diagonal_up_to_string(row_index, col_index)
     #move to edge
-    while row_index < @rows && col_index > 0
+    until row_index == @rows - 1 || col_index == 0
       row_index += 1
       col_index -= 1
     end
