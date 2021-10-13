@@ -39,7 +39,7 @@ describe ConnectFour do
     end
 
     context "when there is a winner diagonally" do
-      context "when there is a winner from BL to TR" do
+      context "when there is a winner from BL to TR (up)" do
         context "if the winning sequence starts at an edge" do
           let(:game_diag_up){described_class.new([1,2,2,1,3,3,3,4,4,4,4])}
           it "returns true" do
@@ -51,6 +51,22 @@ describe ConnectFour do
           let(:game_diag_up){described_class.new([2,3,4,5,2,3,3,6,4,4,4,5,5,5,5])}
           it "returns true" do
             expect(game_diag_up).to have_winner
+          end
+        end
+      end
+
+      context "when there is a winner from TL to BR (down)" do
+        context "if the winning sequence starts at an edge" do
+          let(:game_diag_down){described_class.new([1,1,1,1,3,2,2,2,2,3,3,4])}
+          it "returns true" do
+            expect(game_diag_down).to have_winner
+          end
+        end
+
+        context "if the winning sequence does not start at an edge" do
+          let(:game_diag_down){described_class.new([2,3,4,5,2,2,2,2,4,3,3,3,3,4,4,5])}
+          it "returns true" do
+            expect(game_diag_down).to have_winner
           end
         end
       end

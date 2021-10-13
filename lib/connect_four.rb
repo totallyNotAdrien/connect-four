@@ -59,6 +59,17 @@ class ConnectFour
   end
 
   def winner_diagonal_down?
+    #go up the left column from the first diagonal that could have a winner
+    for row_index in (@rows-4).downto(0) do
+      diag_string = diagonal_down_to_string(row_index, 0)
+      return true if string_has_four_in_a_row?(diag_string)
+    end
+
+    #go across the top row to the last diagonal that could have a winner
+    for col_index in 1..@cols-4 do
+      diag_string = diagonal_down_to_string(0, col_index)
+      return true if string_has_four_in_a_row?(diag_string)
+    end
     false
   end
 
@@ -81,8 +92,21 @@ class ConnectFour
     diagonal_string
   end
 
-  def diagonal_down_to_string(row, col)
+  def diagonal_down_to_string(row_index, col_index)
+    #move to edge
+    until row_index == 0 || col_index == 0
+      row_index -= 1
+      col_index -= 1
+    end
 
+    #form diagonal string from edge
+    diagonal_string = ""
+    while row_index < @rows && col_index < @cols
+        diagonal_string += @board[row_index][col_index]
+        row_index += 1
+        col_index += 1
+    end
+    diagonal_string
   end
 
   def string_has_four_in_a_row?(str)
