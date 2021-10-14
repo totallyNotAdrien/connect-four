@@ -1,6 +1,9 @@
 require "../lib/connect_four.rb"
 
 describe ConnectFour do
+  let(:e){" "}
+  let(:r){"R"}
+  let(:y){"Y"}
   describe "#has_winner?" do
     context "when there is a winner horizontally" do
       context "when there is a winner on the bottom row" do
@@ -89,23 +92,37 @@ describe ConnectFour do
     end
   end
 
-  # describe "#handle_input" do
-  #   context "when input is a digit from 1 to 7" do
-  #     context "if the column is not full" do
-  #       let(:game_handle_valid_input){described_class.new([1,2,2])}
-  #       it "changes the appropriate column" do
-  #         # expected = expect {game_handle_valid_input.handle_input("2"))}
-  #         # expected.to change {game_handle_valid_input.col_to_string("2")}
-  #       end
+  describe "#handle_input" do
+    context "when input is a digit from 1 to 7" do
+      context "if the column is not full" do
+        let(:game_handle_valid_input){described_class.new([1,2,2])}
+        it "changes the appropriate column" do
+          expected = expect {game_handle_valid_input.handle_input("2")}
+          expected.to change {game_handle_valid_input.board.col_to_string(1)}.to("#{e*3}#{y}#{r}#{y}")
+        end
 
-  #       it "switches current player" do
+        let(:game_input_switch){described_class.new([1,2,2])}
+        it "switches current player" do
+          expected = expect {game_handle_valid_input.handle_input("2")}
+          expected.to change {game_handle_valid_input.player_turn_index}.from(1).to(0)
+        end
+      end
 
-  #       end
+      context "if the column is full" do
+        let(:game_handle_full){described_class.new([1,1,1,1,1,1])}
+        it "says the column is full" do
+          expect(game_handle_full).to receive(:puts).with(game_handle_full.column_full_msg)
+          game_handle_full.handle_input("1")
+        end
+      end
+    end
 
-
-  #     end
-
-  #     context "if the row is full"
-  #   end
-  # end
+    context "when input is not a digit from 1 to 7" do
+      let(:game_handle_invalid){described_class.new([1,2,3,4])}
+      it "says input is invalid" do
+        expect(game_handle_invalid).to receive(:puts).with("invalid input")
+        game_handle_invalid.handle_input("milk")
+      end
+    end
+  end
 end

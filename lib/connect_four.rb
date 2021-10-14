@@ -1,7 +1,7 @@
 require_relative "board.rb"
 
 class ConnectFour
-  attr_reader :rows, :cols, :player_turn_index, :board, :player_strings
+  attr_reader :rows, :cols, :player_turn_index, :board, :player_strings, :column_full_msg
   E = " "
   R = "R"
   Y = "Y"
@@ -10,6 +10,7 @@ class ConnectFour
   def initialize(piece_placements = [], start_player_index = 0)
     @player_turn_index = start_player_index
     @player_strings = [R,Y]
+    @column_full_msg = "column full"
     @rows = 6
     @cols = 7
     @board = Board.new(@rows, @cols)
@@ -24,7 +25,13 @@ class ConnectFour
 
   def handle_input(input)
     if valid_input?(input)
-      
+      col_index = input.to_i - 1
+      @board.place_piece(col_index, curr_piece)
+      switch_player
+    elsif !valid_digit?(input)
+      puts "invalid input"
+    else
+      puts @column_full_msg
     end
   end
 
@@ -38,12 +45,16 @@ class ConnectFour
 
   end
 
+  def curr_piece
+    @player_strings[@player_turn_index]
+  end
+
   def valid_input?(input)
     return valid_digit?(input) && !@board.column_full(input.to_i - 1)
   end
 
   def valid_digit?(char)
-    digit?(char) && char.to_i.between(1, @rows)
+    digit?(char) && char.to_i.between?(1, @rows)
   end
 
   def digit?(char)
@@ -111,7 +122,7 @@ class ConnectFour
       if !@board.column_full(col_index)
         @board.place_piece(col_index, @player_strings[@player_turn_index])
       else
-        puts "column full"
+        puts @column_full_msg
         return
       end
       switch_player
