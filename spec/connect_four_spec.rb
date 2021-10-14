@@ -88,4 +88,24 @@ describe ConnectFour do
       end
     end
   end
+
+  # describe "#handle_input" do
+  #   context "when input is a digit from 1 to 7" do
+  #     context "if the column is not full" do
+  #       let(:game_handle_valid_input){described_class.new([1,2,2])}
+  #       it "changes the appropriate column" do
+  #         # expected = expect {game_handle_valid_input.handle_input("2"))}
+  #         # expected.to change {game_handle_valid_input.col_to_string("2")}
+  #       end
+
+  #       it "switches current player" do
+
+  #       end
+
+
+  #     end
+
+  #     context "if the row is full"
+  #   end
+  # end
 end

@@ -1,0 +1,79 @@
+class Board
+  attr_reader :E, :R, :Y, :grid
+
+  def initialize(rows, cols)
+    @E = " "
+    @R = "R"
+    @Y = "Y"
+    @rows = rows
+    @cols = cols
+    @grid = Array.new(@rows){Array.new(@cols, @E)}
+  end
+
+  def place_piece(col_index, piece)
+    row_index = bottommost_empty_row_index_in_col(col_index)
+    @grid[row_index][col_index] = piece if row_index
+  end
+
+  def row_to_string(row_index)
+    @grid[row_index].join("")
+  end
+
+  def col_to_string(col_index)
+    col_string = ""
+    for row_index in 0...@rows do
+      col_string += @grid[row_index][col_index]
+    end
+    col_string
+  end
+
+  #returns a string representing the diagonal from BL to TR
+  #that a given grid position is a part of
+  def diagonal_up_to_string(row_index, col_index)
+    #move to edge
+    until row_index == @rows - 1 || col_index == 0
+      row_index += 1
+      col_index -= 1
+    end
+
+    #form diagonal string from edge
+    diagonal_string = ""
+    while row_index > 0 && col_index < @cols
+        diagonal_string += @grid[row_index][col_index]
+        row_index -= 1
+        col_index += 1
+    end
+    diagonal_string
+  end
+
+  def diagonal_down_to_string(row_index, col_index)
+    #move to edge
+    until row_index == 0 || col_index == 0
+      row_index -= 1
+      col_index -= 1
+    end
+
+    #form diagonal string from edge
+    diagonal_string = ""
+    while row_index < @rows && col_index < @cols
+        diagonal_string += @grid[row_index][col_index]
+        row_index += 1
+        col_index += 1
+    end
+    diagonal_string
+  end
+
+  def column_full(col_index)
+    bottommost_empty_row_index_in_col(col_index) == nil
+  end
+
+  def bottommost_empty_row_index_in_col(column_index)
+    row_index = @rows - 1
+    until row_index < 0
+      return row_index if @grid[row_index][column_index] == @E
+      row_index -= 1
+    end
+    nil
+  end
+
+end
