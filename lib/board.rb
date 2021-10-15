@@ -76,4 +76,44 @@ class Board
     nil
   end
 
+  def display_board(symbols = {@R => @R, @Y => @Y, @E => @E})
+    output = ""
+    #top row
+    row_out = " #{symbols[grid[0][0]]}"
+    for col_index in 1...@cols do
+      sym = symbols[grid[0][col_index]]
+      if sym == @R
+        sym = sym.red
+      elsif sym == @Y
+        sym = sym.yellow
+      end
+      row_out += "| #{sym} "
+    end
+    output += "#{row_out}\n#{grid_row_separator}"
+    puts output
+
+
+  end
+
+  private
+
+  def grid_row_separator
+    thing = "+ \u2014 "
+    "\u2014 #{thing*@cols}"
+  end
+
+end
+
+class String
+  def colorize(color_code)
+    "\e[#{color_code}m#{self}\e[0m"
+  end
+
+  def red
+    colorize(31)
+  end
+
+  def yellow
+    colorize(33)
+  end
 end
