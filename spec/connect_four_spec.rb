@@ -75,6 +75,20 @@ describe ConnectFour do
       end
     end
 
+    context "when board is full" do
+      placements = 
+      [
+        1,2,1,2,1,2,2,1,2,1,2,1,
+        3,4,3,4,3,4,4,3,4,3,4,3,
+        5,6,5,6,5,6,6,5,6,5,6,5,
+        7,7,7,7,7,7
+      ]
+      let(:game_draw){described_class.new(placements)}
+      it "returns true" do
+        expect(game_draw).to have_winner
+      end
+    end
+
     context "when there is no winner" do
       let(:game_no_win){described_class.new([1,1,4,3,5,7,6,2])}
       

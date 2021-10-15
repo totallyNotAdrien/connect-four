@@ -7,7 +7,7 @@ class Board
     @Y = "Y"
     @rows = rows
     @cols = cols
-    @grid = Array.new(@rows){Array.new(@cols, @E)}
+    @grid = Array.new(@rows) { Array.new(@cols, @E) }
   end
 
   def place_piece(col_index, piece)
@@ -21,7 +21,7 @@ class Board
 
   def col_to_string(col_index)
     col_string = ""
-    for row_index in 0...@rows do
+    for row_index in 0...@rows
       col_string += @grid[row_index][col_index]
     end
     col_string
@@ -39,9 +39,9 @@ class Board
     #form diagonal string from edge
     diagonal_string = ""
     while row_index > 0 && col_index < @cols
-        diagonal_string += @grid[row_index][col_index]
-        row_index -= 1
-        col_index += 1
+      diagonal_string += @grid[row_index][col_index]
+      row_index -= 1
+      col_index += 1
     end
     diagonal_string
   end
@@ -56,15 +56,20 @@ class Board
     #form diagonal string from edge
     diagonal_string = ""
     while row_index < @rows && col_index < @cols
-        diagonal_string += @grid[row_index][col_index]
-        row_index += 1
-        col_index += 1
+      diagonal_string += @grid[row_index][col_index]
+      row_index += 1
+      col_index += 1
     end
     diagonal_string
   end
 
-  def column_full(col_index)
+  def column_full?(col_index)
     bottommost_empty_row_index_in_col(col_index) == nil
+  end
+
+  def board_full?
+    col_indices = (0...@cols).to_a
+    col_indices.all? { |col_index| column_full?(col_index) }
   end
 
   def bottommost_empty_row_index_in_col(column_index)
@@ -80,19 +85,19 @@ class Board
     puts
     #column numbers
     col_num_output = " "
-    for col_index in 0...@cols do
+    for col_index in 0...@cols
       col_num_output += "#{col_index + 1}   "
     end
     puts col_num_output
 
     output = ""
     #build output row by row
-    for row_index in 0...@rows do
+    for row_index in 0...@rows
       row_out = " #{colored_piece(grid[row_index][0])} |"
-      for col_index in 1...@cols do
+      for col_index in 1...@cols
         sym = colored_piece(grid[row_index][col_index])
         last_col = col_index == @cols - 1
-        row_out += " #{sym} #{last_col ? " " : "|"}" 
+        row_out += " #{sym} #{last_col ? " " : "|"}"
       end
       output += "#{row_out}\n"
       output += "#{grid_row_separator}\n" unless row_index == @rows - 1
@@ -125,7 +130,6 @@ class Board
       sym
     end
   end
-
 end
 
 class String
