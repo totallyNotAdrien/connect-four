@@ -76,30 +76,54 @@ class Board
     nil
   end
 
-  def display_board(symbols = {@R => @R, @Y => @Y, @E => @E})
-    output = ""
-    #top row
-    row_out = " #{symbols[grid[0][0]]}"
-    for col_index in 1...@cols do
-      sym = symbols[grid[0][col_index]]
-      if sym == @R
-        sym = sym.red
-      elsif sym == @Y
-        sym = sym.yellow
-      end
-      row_out += "| #{sym} "
+  def display_board
+    puts
+    #column numbers
+    col_num_output = " "
+    for col_index in 0...@cols do
+      col_num_output += "#{col_index + 1}   "
     end
-    output += "#{row_out}\n#{grid_row_separator}"
+    puts col_num_output
+
+    output = ""
+    #build output row by row
+    for row_index in 0...@rows do
+      row_out = " #{colored_piece(grid[row_index][0])} |"
+      for col_index in 1...@cols do
+        sym = colored_piece(grid[row_index][col_index])
+        last_col = col_index == @cols - 1
+        row_out += " #{sym} #{last_col ? " " : "|"}" 
+      end
+      output += "#{row_out}\n"
+      output += "#{grid_row_separator}\n" unless row_index == @rows - 1
+    end
+
     puts output
-
-
   end
 
   private
 
+  def em
+    "\u2014"
+  end
+
   def grid_row_separator
-    thing = "+ \u2014 "
-    "\u2014 #{thing*@cols}"
+    thing = "+ #{em} "
+    " #{em} #{thing * (@cols - 1)}"
+  end
+
+  def piece
+    "\u25c9"
+  end
+
+  def colored_piece(sym)
+    if sym == @R
+      piece.red
+    elsif sym == @Y
+      piece.yellow
+    else
+      sym
+    end
   end
 
 end

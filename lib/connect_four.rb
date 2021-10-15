@@ -19,6 +19,15 @@ class ConnectFour
     end
   end
 
+  def play
+    until has_winner?
+      display_turn_info
+      board.display_board
+      player_turn
+    end
+    board.display_board
+  end
+
   def player_turn
     input = player_input
     handle_input(input)
