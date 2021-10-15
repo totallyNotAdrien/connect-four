@@ -19,8 +19,14 @@ class ConnectFour
     end
   end
 
-  def player_input
+  def player_turn
+    input = player_input
+    handle_input(input)
+  end
 
+  def player_input
+    print "Enter the number of the column where you want to place your piece (1-7): "
+    gets.chomp.strip
   end
 
   def handle_input(input)

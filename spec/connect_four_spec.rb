@@ -125,4 +125,21 @@ describe ConnectFour do
       end
     end
   end
+
+  describe "#player_turn" do
+    let(:game_turn){described_class.new}
+    before do
+      allow(game_turn).to receive(:player_input)
+      allow(game_turn).to receive(:handle_input)
+    end
+    it "calls #player_input once" do
+      expect(game_turn).to receive(:player_input)
+      game_turn.player_turn
+    end
+
+    it "calls #handle_input once" do
+      expect(game_turn).to receive(:handle_input)
+      game_turn.player_turn
+    end
+  end
 end
